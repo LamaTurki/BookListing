@@ -86,13 +86,16 @@ public final class SearchUtils {
                     JSONObject currentBookInfo = currentBook.getJSONObject("volumeInfo");
                     String bookTitle = currentBookInfo.getString("title");
                     String bookLink = currentBookInfo.getString("previewLink");
-                    JSONArray authorsArray = currentBookInfo.getJSONArray("authors");
                     String authors = "";
-                    authors += authorsArray.getString(0);
-                    for (int index = 1; index < authorsArray.length(); index++) {
-                        authors += " and ";
-                        authors += authorsArray.getString(index);
-                    }
+                    if (currentBookInfo.has("authors")) {
+                        JSONArray authorsArray = currentBookInfo.getJSONArray("authors");
+                        authors += authorsArray.getString(0);
+                        for (int index = 1; index < authorsArray.length(); index++) {
+                            authors += " and ";
+                            authors += authorsArray.getString(index);
+                        }
+                    } else
+                        authors = "Author N/A";
                     bookList.add(new Book(bookTitle, authors, bookLink));
                 }
             }
